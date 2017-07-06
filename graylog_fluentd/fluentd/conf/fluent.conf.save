@@ -1,0 +1,60 @@
+<source>
+#  @type forward
+#  port 24224
+#  bind 0.0.0.0
+  @type secure_forward
+  shared_key YOUR_SHARED_KEY
+  self_hostname ${hostname} 
+  port 24224
+
+  secure yes
+  
+</source>
+<filter *.**>
+  @type concat
+  key log
+  multiline_start_regexp /^\[(op|oz)_(worker|panel)\] (\[\w )?\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}.\d{3}/
+  flush_interval 5
+  timeout_label @NORMAL
+</filter>
+<match **>
+  @type relabel
+  @label @NORMAL
+</match>
+#<label @NORMAL>
+#  <match **>
+#    @type stdout
+#  </match>
+#</label>
+#<filter *.**>
+#  @type grep
+#  exclude1 message "^Timeout flush: .{12}\:default$"
+#</filter>
+<label @NORMAL>
+<match *.**>
+  @type copy
+  <store>
+    @type gelf
+    host graylog
+    port 12201
+    include_tag_key true
+    tag_key @log_name
+    flush_interval 1s
+  </store>
+#  <store>
+#    @type elasticsearch
+#    host elasticsearch2
+#    port 9300
+#    logstash_format true
+#    logstash_prefix fluentd
+#    logstash_dateformat %Y%m%d
+#    include_tag_key true
+#    type_name access_log
+#    tag_key @log_name
+#    flush_interval 1s
+#  </store>
+  <store>
+    type stdout
+  </store>
+</match>
+</label>
