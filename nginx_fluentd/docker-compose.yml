@@ -1,0 +1,30 @@
+version: "2.0"
+services:
+  fluentdnginx:
+    build: ./fluentd
+    volumes:
+      - ./fluentd/conf:/fluentd/etc
+#    network_mode: bridge
+    ports:
+      - "24225:24224"
+      - "24225:24224/udp"
+    networks:
+      - graylogfluentd_default
+  web:
+    image: httpd
+    ports:
+      - "8080:80"
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:24225
+        tag: flnginx
+networks:
+#  default:
+#    driver: bridge
+#    driver_opts:
+#      com.docker.network.driver.mtu: 1400
+#  fngin:
+#    driver: bridge
+  graylogfluentd_default:
+    external: true
