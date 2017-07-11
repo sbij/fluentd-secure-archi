@@ -6,10 +6,6 @@ services:
       - ./fluentd/conf:/fluentd/etc
     links:
       - "graylog"
-#    network_mode: host
-#    network_mode: bridge
-#    networks:
-#      - fngin
     ports:
       - "24224:24224"
       - "24224:24224/udp"
