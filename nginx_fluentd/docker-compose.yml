@@ -4,7 +4,6 @@ services:
     build: ./fluentd
     volumes:
       - ./fluentd/conf:/fluentd/etc
-#    network_mode: bridge
     ports:
       - "24225:24224"
       - "24225:24224/udp"
@@ -24,7 +23,5 @@ networks:
 #    driver: bridge
 #    driver_opts:
 #      com.docker.network.driver.mtu: 1400
-#  fngin:
-#    driver: bridge
   graylogfluentd_default:
     external: true
