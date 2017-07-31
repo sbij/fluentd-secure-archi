@@ -1,0 +1,46 @@
+version: '2'
+services:
+  fluentd:
+    build: ./fluentd
+    volumes:
+      - ./fluentd/conf:/fluentd/etc
+#    links:
+#      - "graylog"
+#    network_mode: host
+#    network_mode: bridge
+#    networks:
+#      - fngin
+#    ports:
+#      - "24224:24224"
+#      - "24224:24224/udp"
+#      - "24284:24284"
+#      - "24284:24284/udp"
+    network_mode: host
+  mongo:
+    image: "mongo:3"
+  elasticsearch:
+    image: "elasticsearch:2"
+    command: "elasticsearch -Des.cluster.name='graylog'"
+    network_mode: host
+  graylog:
+    image: graylog2/server:2.2.1-1
+    environment:
+      GRAYLOG_PASSWORD_SECRET: somepasswordpepper
+      GRAYLOG_ROOT_PASSWORD_SHA2: 8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918
+      GRAYLOG_WEB_ENDPOINT_URI: http://127.0.0.1:9000/api
+    depends_on:
+      - mongo
+      - elasticsearch
+#    ports:
+#      - "9000:9000"
+#      - "12201:12201/udp"
+#      - "12202:12202/udp"
+    network_mode: host
+# Needed to work in Cyfronet
+#networks:
+#  default:
+#    driver: bridge
+#    driver_opts:
+#      com.docker.network.driver.mtu: 1400
+#  nginxfluentd_default:
+#    external: true

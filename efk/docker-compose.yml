@@ -1,0 +1,38 @@
+version: '2'
+services:
+  fluentd:
+    build: ./fluentd
+    volumes:
+      - ./fluentd/conf:/fluentd/etc
+    links:
+      - "elasticsearch"
+#    network_mode: host
+#    network_mode: bridge
+#    networks:
+#      - fngin
+    ports:
+      - "24224:24224"
+      - "24224:24224/udp"
+      - "24284:24284"
+      - "24284:24284/udp"
+  elasticsearch:                                    
+    image: elasticsearch                            
+    expose:                                         
+      - 9200                                        
+    ports:                                          
+      - "9200:9200"                                 
+
+  kibana:                                           
+    image: kibana                                   
+    links:                                          
+      - "elasticsearch"                             
+    ports:                                          
+      - "5601:5601"
+# Needed to work in Cyfronet
+networks:
+  default:
+    driver: bridge
+    driver_opts:
+      com.docker.network.driver.mtu: 1400
+#  nginxfluentd_default:
+#    external: true
