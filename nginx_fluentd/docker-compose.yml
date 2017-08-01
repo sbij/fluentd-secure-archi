@@ -1,14 +1,12 @@
 version: "2.0"
 services:
-  fluentdnginx:
+  fluentd:
     build: ./fluentd
     volumes:
       - ./fluentd/conf:/fluentd/etc
     ports:
       - "24225:24224"
       - "24225:24224/udp"
-    networks:
-      - graylogfluentd_default
   web:
     image: httpd
     ports:
@@ -18,10 +16,9 @@ services:
       options:
         fluentd-address: localhost:24225
         tag: flnginx
+# Needed to work in Cyfronet
 networks:
 #  default:
 #    driver: bridge
 #    driver_opts:
 #      com.docker.network.driver.mtu: 1400
-  graylogfluentd_default:
-    external: true

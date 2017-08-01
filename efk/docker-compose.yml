@@ -6,10 +6,6 @@ services:
       - ./fluentd/conf:/fluentd/etc
     links:
       - "elasticsearch"
-#    network_mode: host
-#    network_mode: bridge
-#    networks:
-#      - fngin
     ports:
       - "24224:24224"
       - "24224:24224/udp"
@@ -29,10 +25,8 @@ services:
     ports:                                          
       - "5601:5601"
 # Needed to work in Cyfronet
-networks:
-  default:
-    driver: bridge
-    driver_opts:
-      com.docker.network.driver.mtu: 1400
-#  nginxfluentd_default:
-#    external: true
+#networks:
+#  default:
+#    driver: bridge
+#    driver_opts:
+#      com.docker.network.driver.mtu: 1400
