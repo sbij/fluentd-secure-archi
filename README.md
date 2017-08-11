@@ -10,7 +10,7 @@ There are multiple architectures:
 * Reciever:
   * Docker Kibana: [fluentd-elasticsearch-kibana](https://github.com/sbij/fluentd-secure-archi/tree/master/fluentd-elasticsearch-kibana)
   * Docker Graylog: [fluentd-elasticsearch-graylog](https://github.com/sbij/fluentd-secure-archi/tree/master/fluentd-elasticsearch-graylog)
-  * Kubernetes Kibana: [efk-k8s-charts](https://github.com/sbij/efk-k8s-charts) (it is by default packed with the Kubernetes daemonset, that you can disable in ```central-logging/requirements.yaml```.
+  * Kubernetes Kibana: [efk-k8s-charts](https://github.com/sbij/efk-k8s-charts) (it is by default packed with the Kubernetes daemonset, that you can disable in ```central-logging/requirements.yaml```.)
   
 
 With Nginx and Fluentd in one Docker-compose file and Fluentd, Elasticsearch and Kibana or Graylog in another Docker-compose file.
